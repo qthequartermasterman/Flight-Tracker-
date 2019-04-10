@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC97C424224040C7008A6723 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC97C423224040C7008A6723 /* main.cpp */; };
+		BCEF65C822416457003CCDDA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65C722416457003CCDDA /* main.cpp */; };
+		BCEF65CB22416704003CCDDA /* CrewMember.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65CA22416704003CCDDA /* CrewMember.cpp */; };
+		BCEF65CE2241672A003CCDDA /* Flight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65CD2241672A003CCDDA /* Flight.cpp */; };
+		BCEF65D122416735003CCDDA /* Plane.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65D022416735003CCDDA /* Plane.cpp */; };
+		BCEF65D42241673C003CCDDA /* Planes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65D32241673C003CCDDA /* Planes.cpp */; };
+		BCEF65D722416742003CCDDA /* Flights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65D622416742003CCDDA /* Flights.cpp */; };
+		BCEF65DA22416748003CCDDA /* CrewMembers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65D922416748003CCDDA /* CrewMembers.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +30,19 @@
 
 /* Begin PBXFileReference section */
 		BC97C420224040C7008A6723 /* csce1040Homework4 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = csce1040Homework4; sourceTree = BUILT_PRODUCTS_DIR; };
-		BC97C423224040C7008A6723 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		BCEF65C722416457003CCDDA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		BCEF65C922416704003CCDDA /* CrewMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrewMember.h; sourceTree = "<group>"; };
+		BCEF65CA22416704003CCDDA /* CrewMember.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CrewMember.cpp; sourceTree = "<group>"; };
+		BCEF65CC2241672A003CCDDA /* Flight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flight.h; sourceTree = "<group>"; };
+		BCEF65CD2241672A003CCDDA /* Flight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Flight.cpp; sourceTree = "<group>"; };
+		BCEF65CF22416734003CCDDA /* Plane.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Plane.h; sourceTree = "<group>"; };
+		BCEF65D022416735003CCDDA /* Plane.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Plane.cpp; sourceTree = "<group>"; };
+		BCEF65D22241673C003CCDDA /* Planes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Planes.h; sourceTree = "<group>"; };
+		BCEF65D32241673C003CCDDA /* Planes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Planes.cpp; sourceTree = "<group>"; };
+		BCEF65D522416742003CCDDA /* Flights.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flights.h; sourceTree = "<group>"; };
+		BCEF65D622416742003CCDDA /* Flights.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Flights.cpp; sourceTree = "<group>"; };
+		BCEF65D822416748003CCDDA /* CrewMembers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrewMembers.h; sourceTree = "<group>"; };
+		BCEF65D922416748003CCDDA /* CrewMembers.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CrewMembers.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +75,19 @@
 		BC97C422224040C7008A6723 /* csce1040Homework4 */ = {
 			isa = PBXGroup;
 			children = (
-				BC97C423224040C7008A6723 /* main.cpp */,
+				BCEF65CA22416704003CCDDA /* CrewMember.cpp */,
+				BCEF65C922416704003CCDDA /* CrewMember.h */,
+				BCEF65D922416748003CCDDA /* CrewMembers.cpp */,
+				BCEF65D822416748003CCDDA /* CrewMembers.h */,
+				BCEF65CD2241672A003CCDDA /* Flight.cpp */,
+				BCEF65CC2241672A003CCDDA /* Flight.h */,
+				BCEF65D022416735003CCDDA /* Plane.cpp */,
+				BCEF65CF22416734003CCDDA /* Plane.h */,
+				BCEF65D32241673C003CCDDA /* Planes.cpp */,
+				BCEF65D22241673C003CCDDA /* Planes.h */,
+				BCEF65D622416742003CCDDA /* Flights.cpp */,
+				BCEF65D522416742003CCDDA /* Flights.h */,
+				BCEF65C722416457003CCDDA /* main.cpp */,
 			);
 			path = csce1040Homework4;
 			sourceTree = "<group>";
@@ -102,6 +132,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = BC97C417224040C7008A6723;
 			productRefGroup = BC97C421224040C7008A6723 /* Products */;
@@ -118,7 +149,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC97C424224040C7008A6723 /* main.cpp in Sources */,
+				BCEF65DA22416748003CCDDA /* CrewMembers.cpp in Sources */,
+				BCEF65CB22416704003CCDDA /* CrewMember.cpp in Sources */,
+				BCEF65C822416457003CCDDA /* main.cpp in Sources */,
+				BCEF65D122416735003CCDDA /* Plane.cpp in Sources */,
+				BCEF65D722416742003CCDDA /* Flights.cpp in Sources */,
+				BCEF65CE2241672A003CCDDA /* Flight.cpp in Sources */,
+				BCEF65D42241673C003CCDDA /* Planes.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
