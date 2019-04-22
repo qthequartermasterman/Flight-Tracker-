@@ -9,6 +9,9 @@
  =============CrewMembers.cpp================*/
 
 #include "CrewMembers.h"
+#include "Pilot.h"
+#include "Copilot.h"
+#include "Cabin.h"
 
 #include <iostream>
 #include <iterator>
@@ -16,32 +19,21 @@
 #include <fstream>
 
 void CrewMembers::addCrew(){
-    CrewMember newEmployee;
+    CrewMember *newEmployee = nullptr;
     std::string name;
     std::string type;
     bool validType = false;
     int id;
     
     std::cout << "Creating New Employee:\n";
+    //Enter career type
+    std::cout << "Type of Employee (Pilot, Copilot, Cabin): ";
+    std::cin >> type; std::cin.ignore();
+    
     //Enter Name
     std::cout << "Name of Employee: ";
     std::getline(std::cin, name);
-    newEmployee.setName(name);
-    //Enter career type
-    std::cout << "Type of Employee (Pilot, Cabin): ";
-    std::cin >> type; std::cin.ignore();
-    do{
-        if (type[0] == 'P' || type[0] == 'p'){
-            newEmployee.setCareerType("Pilot");
-            validType = true;
-        } else if (type[0] == 'C' || type[0] == 'c'){
-            newEmployee.setCareerType("Cabin");
-            validType = true;
-        } else{
-            std::cout << "Invalid Employee Type. Correct Employee type: ";
-            std::cin>>type; std::cin.ignore();
-        }
-    } while (!validType);
+
     //Enter ID
     std::cout << "Employee ID: ";
     std::cin >> id; std::cin.ignore();
@@ -49,7 +41,64 @@ void CrewMembers::addCrew(){
         std::cout << "Employee ID already in use. Please choose another: ";
         std::cin >> id; std::cin.ignore();
     }
-    newEmployee.setID(id);
+
+    //Specific Career type data
+    do{
+        if (type[0] == 'P' || type[0] == 'p'){
+            //newEmployee.setCareerType("Pilot");
+            newEmployee = new Pilot();
+            validType = true;
+            
+            //Pilot Data
+            std::string pilotRating;
+            float cumulativeFlightHours;
+            Pilot* newPilot = dynamic_cast<Pilot*>(newEmployee);
+            
+            std::cout << "Enter 5 digit Pilot code: ";
+            std::cin >> pilotRating; std::cin.ignore();
+            newPilot->setPilotRating(pilotRating);
+            std::cout << "Enter Pilot's cumulative flight hours: ";
+            std::cin >> cumulativeFlightHours; std::cin.ignore();
+            newPilot->setCumulativeFlightHours(cumulativeFlightHours);
+            
+            
+        } else if ((type[0] == 'C' || type[0] == 'c') && (type[1]=='a' || type[1]=='A')){
+            //newEmployee.setCareerType("Cabin");
+            newEmployee = new Cabin();
+            validType = true;
+            Cabin* newCabin = dynamic_cast<Cabin*>(newEmployee);
+            newCabin->setCrewType();
+        } else if((type[0] == 'C' || type[0] == 'c') && (type[1]=='o' || type[1]=='O')){
+            newEmployee = new Copilot();
+            validType = true;
+            
+            //CoPilot Data
+            std::string pilotRating;
+            float cumulativeFlightHours;
+            Copilot* newCoPilot = dynamic_cast<Copilot*>(newEmployee);
+            
+            std::cout << "Enter 4 digit Copilot code: ";
+            std::cin >> pilotRating; std::cin.ignore();
+            newCoPilot->setCoPilotRating(pilotRating);
+            std::cout << "Enter Copilot's cumulative flight hours: ";
+            std::cin >> cumulativeFlightHours; std::cin.ignore();
+            newCoPilot->setCumulativeFlightHours(cumulativeFlightHours);
+            
+        }else{
+            std::cout << "Invalid Employee Type. Correct Employee type: ";
+            std::cin>>type; std::cin.ignore();
+        }
+    } while (!validType);
+    
+    newEmployee->setName(name);
+    newEmployee->setID(id);
+
+    
+    
+    
+    
+    
+    
     
     CREWMEMBERS.push_back(newEmployee);
 } //presents a dialog to the user that asks for the potential CrewMember’s ID (integer) and careerType (string, such as Pilot or Cabin).
@@ -87,10 +136,10 @@ void CrewMembers::editCrew(){
                     std::cin >> type; std::cin.ignore();
                     do{
                         if (type[0] == 'P' || type[0] == 'p'){
-                            crewMemberWithID->setCareerType("Pilot");
+                            //crewMemberWithID->setCareerType("Pilot");
                             validType = true;
                         } else if (type[0] == 'C' || type[0] == 'c'){
-                            crewMemberWithID->setCareerType("Cabin");
+                            //crewMemberWithID->setCareerType("Cabin");
                             validType = true;
                         } else{
                             std::cout << "Invalid Employee Type. Correct Employee type (Pilot, Cabin): ";
@@ -115,13 +164,14 @@ void CrewMembers::editCrew(){
 void CrewMembers::deleteCrew(){
     int id;
     bool removedEmployee = false;
-    std::vector<CrewMember>::iterator ptr;
+    std::vector<CrewMember*>::iterator ptr;
     
     std::cout <<"Deleting Employee...\n" << "Employee ID: ";
     std::cin >> id; std::cin.ignore();
     
     for (ptr = CREWMEMBERS.begin(); ptr < CREWMEMBERS.end(); ptr++){
-        if (ptr->getID()==id){
+        if ((*ptr)->getID()==id){
+            delete (*ptr);
             CREWMEMBERS.erase(ptr);
             std::cout << "Removed Employee.\n";
             removedEmployee = true;
@@ -134,10 +184,10 @@ void CrewMembers::deleteCrew(){
 } //searches for every Crew Member with the given name
  */
 CrewMember* CrewMembers::findCrewMemberByID(int crewID){
-    std::vector<CrewMember>::iterator ptr;
+    std::vector<CrewMember*>::iterator ptr;
     for (ptr = CREWMEMBERS.begin(); ptr < CREWMEMBERS.end(); ptr++){
-        if (ptr->getID()==crewID){
-            return &(*ptr);
+        if ((*ptr)->getID()==crewID){
+            return (*ptr);
         }
     }
     std::cout << "Crew Member with given ID not found in system.";
@@ -149,16 +199,16 @@ CrewMember* CrewMembers::findCrewMemberByID(int crewID){
  */
 void CrewMembers::printListOfPeople(){
     std::cout << "Printing list of all employees.\n";
-    std::cout << std::left << std::setw(8) << "ID:" << std::setw(20) << "Name:" << std::setw(8) << "Position"<<std::endl;
-    std::vector<CrewMember>::iterator ptr;
+    std::cout << std::left << std::setw(8) << "ID:" << std::setw(20) << "Name:" <<std::endl;
+    std::vector<CrewMember*>::iterator ptr;
     for (ptr = CREWMEMBERS.begin(); ptr < CREWMEMBERS.end(); ptr++){
-        ptr->printInfo();
+        (*ptr)->printInfo();
     }
 } //iterates over every CrewMember in the collection and runs printIndividualInfo(crewID) with their respective crewID.
 void CrewMembers::printIndividualInfo(int crewID){
     CrewMember* crewMemberWithID = findCrewMemberByID(crewID);
     if (crewMemberWithID){
-        std::cout << std::left << std::setw(8) << "ID:" << std::left << std::setw(20) << "Name:" << std::setw(8) << "Position"<<std::endl;
+        std::cout << std::left << std::setw(8) << "ID:" << std::left << std::setw(20) << "Name:" <<std::endl;
         crewMemberWithID->printInfo();
     } else {
         std::cout << "Crew Member with that ID is not found. Aborting print.\n";
@@ -175,9 +225,9 @@ std::string CrewMembers::checkCareerType(int crewID){
     return "";
 } //returns the careerType of the crewmember with crewID in the collection.
 bool CrewMembers::isIDtaken(int crewID){
-    std::vector<CrewMember>::iterator ptr;
+    std::vector<CrewMember*>::iterator ptr;
     for (ptr = CREWMEMBERS.begin(); ptr < CREWMEMBERS.end(); ptr++){
-        if (ptr->getID()==crewID){
+        if ((*ptr)->getID()==crewID){
             return true;
         }
     }
@@ -189,12 +239,25 @@ void CrewMembers::storeData(){
     fout.open("crewmembers.dat");
     
     //Iterate over each plane, and add the data
-    std::vector<CrewMember>::iterator ptr;
+    std::vector<CrewMember*>::iterator ptr;
     fout << CREWMEMBERS.size() << std::endl; //The number of planes. This will just make life easier as we load data.
     for (ptr = CREWMEMBERS.begin(); ptr < CREWMEMBERS.end(); ptr++){
-        fout << ptr->getID() << std::endl;
-        fout << ptr->getName() << std::endl;
-        fout << ptr->getCareerType() << std::endl;
+        fout << (*ptr)->getType() << std::endl; //Type of employee
+        fout << (*ptr)->getID() << std::endl; //employee id
+        fout << (*ptr)->getName() << std::endl; //employee name
+        //The career specific data will look different depending on the type of employee.
+        if ((*ptr)->getType()==PILOTTYPE){
+            Pilot* pilot = dynamic_cast<Pilot*>(*ptr);
+            fout << pilot->getPilotRating() << std::endl;
+            fout << pilot->getCumulativeFlightHours() << std::endl;
+        } else if ((*ptr)->getType()==COPILOTTYPE){
+            Copilot* copilot = dynamic_cast<Copilot*>(*ptr);
+            fout << copilot->getCopilotRating() << std::endl;
+            fout << copilot->getCumulativeFlightHours() << std::endl;
+        } else if ((*ptr)->getType()==CABINCREWTYPE){
+            Cabin* cabin = dynamic_cast<Cabin*>(*ptr);
+            fout << cabin->getCrewType() << std::endl;
+        }
     }
     fout.close();
 } //Saves data from disk.
@@ -207,19 +270,76 @@ void CrewMembers::loadData(){
     fin >> numberOfCrew; fin.ignore();
     //Iterate over the planes in the document.
     for (int i =0; i < numberOfCrew; i++){
-        CrewMember newCrew;
-        std::string name;
-        std::string careerType;
-        int ID;
-        fin >> ID; fin.ignore();
-        std::getline(fin, name);
-        std::getline(fin, careerType);
+        int careerType;
+        fin >> careerType; fin.ignore();
+        if (careerType == PILOTTYPE){
+            Pilot* newPilot = new Pilot();
+            std::string name;
+            int ID;
+            std::string pilotRating;
+            int inflightHours;
+            
+            fin >> ID; fin.ignore();
+            std::getline(fin, name);
+            fin >> pilotRating; fin.ignore();
+            fin >> inflightHours; fin.ignore();
+            
+            newPilot->setName(name);
+            newPilot->setID(ID);
+            newPilot->setPilotRating(pilotRating);
+            newPilot->setCumulativeFlightHours(inflightHours);
+            CREWMEMBERS.push_back(newPilot);
+        } else if (careerType == COPILOTTYPE){
+            Copilot* newCoPilot = new Copilot();
+            std::string name;
+            int ID;
+            std::string copilotRating;
+            int inflightHours;
+            
+            fin >> ID; fin.ignore();
+            std::getline(fin, name);
+            fin >> copilotRating; fin.ignore();
+            fin >> inflightHours; fin.ignore();
+            
+            newCoPilot->setName(name);
+            newCoPilot->setID(ID);
+            newCoPilot->setCoPilotRating(copilotRating);
+            newCoPilot->setCumulativeFlightHours(inflightHours);
+            CREWMEMBERS.push_back(newCoPilot);
+        }else if (careerType == CABINCREWTYPE){
+            Cabin* newCabin = new Cabin();
+            std::string name;
+            int ID;
+            int cabinCrewType;
+            
+            fin >> ID; fin.ignore();
+            std::getline(fin, name);
+            fin >> cabinCrewType; fin.ignore();
+            
+            newCabin->setName(name);
+            newCabin->setID(ID);
+            newCabin->setCrewType(static_cast<CabinCrewType>(cabinCrewType));
+            CREWMEMBERS.push_back(newCabin);
+        }
         
-        newCrew.setName(name);
-        newCrew.setCareerType(careerType);
-        newCrew.setID(ID);
-        
-        CREWMEMBERS.push_back(newCrew);
     }
     fin.close();
 } //Loads data from disk.
+
+
+bool CrewMembers::isCrewMemberOfType(int crewMemberID, int crewMemberType){
+    CrewMember* crewMemberWithID = findCrewMemberByID(crewMemberID);
+    if (crewMemberWithID->getType() == crewMemberType){
+        return true;
+    } else {
+        return false;
+    }
+}//returns true if the crewmember with the given ID is of the correct type.
+
+
+CrewMembers::~CrewMembers(){
+    std::vector<CrewMember*>::iterator it;
+    for (it = CREWMEMBERS.begin(); it < CREWMEMBERS.end(); it++){
+        delete (*it);
+    }
+}

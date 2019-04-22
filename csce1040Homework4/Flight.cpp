@@ -39,15 +39,23 @@ void Flight::printInfo(){
     }
     //Print Pilot information
     std::cout << std::left << std::setw(20) << "Minimum Pilots: " << std::setw(3) << numberOfPilots << std::setw(20) << "Assigned Pilots: " << std::setw(3) << pilotIDs.size() << std::endl;
-    std::cout << "Pilots: ";
+    std::cout << "Pilots IDs: ";
     //Print each pilot's id.
     for (std::vector<int>::iterator i = pilotIDs.begin(); i < pilotIDs.end(); i++){
         std::cout << *i << " ";
     }
     std::cout << std::endl;
+    //Print CoPilot information
+    std::cout << std::left << std::setw(20) << "Minimum Copilots: " << std::setw(3) << numberOfCoPilots << std::setw(20) << "Assigned Copilots: " << std::setw(3) << copilotIDs.size() << std::endl;
+    std::cout << "Copilots IDs: ";
+    //Print each pilot's id.
+    for (std::vector<int>::iterator i = copilotIDs.begin(); i < copilotIDs.end(); i++){
+        std::cout << *i << " ";
+    }
+    std::cout << std::endl;
     //Print Crew information
     std::cout << std::left << std::setw(20) << "Minimum Crew: " << std::setw(3) << numberOfCrewCabin << std::setw(20) << "Assigned Crew: " << std::setw(3) << cabinCrewIDs.size() << std::endl;
-    std::cout << "Cabin Crew: ";
+    std::cout << "Cabin Crew IDs: ";
     //Print each crewmember's id.
     for (std::vector<int>::iterator i = cabinCrewIDs.begin(); i < cabinCrewIDs.end(); i++){
         std::cout << *i << " ";
@@ -67,8 +75,14 @@ bool Flight::isCrewOnFlight(int crewID){
             return true;
         }
     }
-    //CHeck if onboard as a pilot
+    //Check if onboard as a pilot
     for (ptr = pilotIDs.begin(); ptr < pilotIDs.end(); ptr++){
+        if (*ptr == crewID){
+            return true;
+        }
+    }
+    //Check if onboard as a copilot
+    for (ptr = copilotIDs.begin(); ptr < copilotIDs.end(); ptr++){
         if (*ptr == crewID){
             return true;
         }

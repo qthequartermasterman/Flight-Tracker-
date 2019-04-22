@@ -13,7 +13,7 @@
 #include <iomanip>
 
 void CrewMember::printInfo(){
-    std::cout << std::setw(8) << ID << std::setw(20) << name << std::setw(8) << careerType<<std::endl;
+    std::cout << std::left << std::setw(8) << ID << std::setw(20) << name <<std::endl;
     /*std::cout << "\tName: " << name << std::endl;
     std::cout << "\tCareer Type: " << careerType << std::endl;
     std::cout << "\tID Number: " << ID << std::endl;*/

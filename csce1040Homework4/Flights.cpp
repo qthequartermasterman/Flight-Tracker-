@@ -87,9 +87,11 @@ void Flights::addFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
     int flightID;
     std::string planeID;
     int numberOfPilots; //(integer) [flights over 8 hours need 2 pilots and 2 copilots]
+    int numberOfCopilots;
     int numberOfCrewCabin; //(integer) [8 hour flights need twice the minimum]
     std::vector<int> pilotIDs; //vector of all the pilots aboard a flight.
     std::vector<int> cabinCrewIDs; //vector of all the cabincrew aboard a flight.
+    std::vector<int> copilotIDs;
     time_t startTime; // (date/time)
     time_t endTime; //(date/time)
     std::string startPort; //string representing the airport that the plane departs from.
@@ -169,13 +171,16 @@ void Flights::addFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
     newFlight.setStatus(status);
     //Set minimums
     if (endTime-startTime > 28800){
-        numberOfPilots = 4; //Two pilots and two co pilots
+        numberOfPilots = 2; //Two pilots and two co pilots
+        numberOfCopilots = 2;
         numberOfCrewCabin = 2*(PLANES->getMinCrewOfPlane(planeID)); //Twice the minimum required by the plane
     } else {
-        numberOfPilots = 2;
+        numberOfPilots = 1; //One pilot and one co pilot
+        numberOfCopilots = 1;//One pilot and one co pilot
         numberOfCrewCabin = PLANES->getMinCrewOfPlane(planeID); //The minimum required by the plane
     }
     newFlight.setNumberOfPilots(numberOfPilots);
+    newFlight.setNumberOfCoPilots(numberOfCopilots);
     newFlight.setNumberOfCrewCabin(numberOfCrewCabin);
 
     std::cout << "Enter Pilot IDs, one at a time. After adding enough pilots, enter 0 to finish.\n";
@@ -188,7 +193,12 @@ void Flights::addFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
         if (tempID != 0){
             //Check to make sure we're adding an additional ID.
             if (isCrewMemberAvailable(tempID, startTime, endTime)){
-                pilotIDs.push_back(tempID);
+                //Check to make sure that the Crewmember is a pilot.
+                if (CREWMEMBERS->isCrewMemberOfType(tempID, PILOTTYPE)){
+                    pilotIDs.push_back(tempID);
+                } else {
+                    std::cout << "That employee is not a pilot. Please enter a pilot's ID.\n";
+                }
             } else {
                 std::cout << "Employee is not available during that time.\n";
             }
@@ -207,6 +217,40 @@ void Flights::addFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
     newFlight.setPilotIDs(pilotIDs);
     tempID=-1; //Reset this so that we don't accidentally stop another loop too early.
     
+    std::cout << "Enter Copilot IDs, one at a time. After adding enough copilots, enter 0 to finish.\n";
+    std::cout << "Minimum required number of copilots: " << numberOfPilots << std::endl;
+    while (true){
+        //Yes. This is ugly. But it's less ugly than using goto. And it requires too much time to restructure this in a more elegant way.
+        //for additional reading, see xkcd.com/292/
+        std::cout << "Copilot #" << pilotIDs.size()+1 << ": ";
+        std::cin >> tempID; std::cin.ignore();
+        if (tempID != 0){
+            //Check to make sure we're adding an additional ID.
+            if (isCrewMemberAvailable(tempID, startTime, endTime)){
+                //Check to make sure that the Crewmember is a copilot.
+                if (CREWMEMBERS->isCrewMemberOfType(tempID, COPILOTTYPE)){
+                    copilotIDs.push_back(tempID);
+                } else {
+                    std::cout << "That employee is not a copilot. Please enter a copilot's ID.\n";
+                }
+            } else {
+                std::cout << "Employee is not available during that time.\n";
+            }
+            
+        } else {
+            //If the user doesn't want to add an additional copilot, we make sure they have added enough. If so, we let them go on. If not, we force them with our iron fist.
+            if (copilotIDs.size()>=numberOfCopilots){
+                break;
+            } else {
+                std::cout << "Too few pilots. Please enter additional Pilot IDs.\n";
+                tempID=-1; //Reset this so that we don't accidentally stop another loop too early.
+            }
+        }
+        
+    }
+    newFlight.setCoPilotIDs(copilotIDs);
+    tempID=-1; //Reset this so that we don't accidentally stop another loop too early.
+    
     std::cout << "Enter Cabin Crew Member IDs, one at a time. Enter 0 to finish.\n";
     std::cout << "Minimum required number of Cabin Crew: " << numberOfCrewCabin << std::endl;
     
@@ -217,9 +261,18 @@ void Flights::addFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
         std::cin >> tempID; std::cin.ignore();
         if (tempID != 0){
             //Check to make sure we're adding an additional ID.
-            cabinCrewIDs.push_back(tempID);
+            if (isCrewMemberAvailable(tempID, startTime, endTime)){
+                //Check to make sure that the Crewmember is a cabincrew.
+                if (CREWMEMBERS->isCrewMemberOfType(tempID, CABINCREWTYPE)){
+                    cabinCrewIDs.push_back(tempID);
+                } else {
+                    std::cout << "That employee is not a copilot. Please enter a copilot's ID.\n";
+                }
+            } else {
+                std::cout << "Employee is not available during that time.\n";
+            }
         } else {
-            //If the user doesn't want to add an additional pilot, we make sure they have added enough. If so, we let them go on. If not, we force them with our iron fist.
+            //If the user doesn't want to add an additional cabin, we make sure they have added enough. If so, we let them go on. If not, we force them with our iron fist.
             if (cabinCrewIDs.size()>=numberOfCrewCabin){
                 break;
             } else {

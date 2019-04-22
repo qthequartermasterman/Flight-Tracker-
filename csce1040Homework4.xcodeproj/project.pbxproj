@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC905FA222652079008F1F79 /* Copilot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC905FA022652079008F1F79 /* Copilot.cpp */; };
+		BC905FA52265211A008F1F79 /* Cabin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BC905FA32265211A008F1F79 /* Cabin.cpp */; };
+		BCD13D35225E6AC500E3BC96 /* Pilot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCD13D33225E6AC500E3BC96 /* Pilot.cpp */; };
 		BCEF65C822416457003CCDDA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65C722416457003CCDDA /* main.cpp */; };
 		BCEF65CB22416704003CCDDA /* CrewMember.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65CA22416704003CCDDA /* CrewMember.cpp */; };
 		BCEF65CE2241672A003CCDDA /* Flight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BCEF65CD2241672A003CCDDA /* Flight.cpp */; };
@@ -29,7 +32,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		BC905FA022652079008F1F79 /* Copilot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Copilot.cpp; sourceTree = "<group>"; };
+		BC905FA122652079008F1F79 /* Copilot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Copilot.h; sourceTree = "<group>"; };
+		BC905FA32265211A008F1F79 /* Cabin.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cabin.cpp; sourceTree = "<group>"; };
+		BC905FA42265211A008F1F79 /* Cabin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cabin.h; sourceTree = "<group>"; };
 		BC97C420224040C7008A6723 /* csce1040Homework4 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = csce1040Homework4; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCD13D33225E6AC500E3BC96 /* Pilot.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Pilot.cpp; sourceTree = "<group>"; };
+		BCD13D34225E6AC500E3BC96 /* Pilot.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Pilot.h; sourceTree = "<group>"; };
 		BCEF65C722416457003CCDDA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		BCEF65C922416704003CCDDA /* CrewMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrewMember.h; sourceTree = "<group>"; };
 		BCEF65CA22416704003CCDDA /* CrewMember.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CrewMember.cpp; sourceTree = "<group>"; };
@@ -77,6 +86,12 @@
 			children = (
 				BCEF65CA22416704003CCDDA /* CrewMember.cpp */,
 				BCEF65C922416704003CCDDA /* CrewMember.h */,
+				BCD13D33225E6AC500E3BC96 /* Pilot.cpp */,
+				BCD13D34225E6AC500E3BC96 /* Pilot.h */,
+				BC905FA022652079008F1F79 /* Copilot.cpp */,
+				BC905FA122652079008F1F79 /* Copilot.h */,
+				BC905FA32265211A008F1F79 /* Cabin.cpp */,
+				BC905FA42265211A008F1F79 /* Cabin.h */,
 				BCEF65D922416748003CCDDA /* CrewMembers.cpp */,
 				BCEF65D822416748003CCDDA /* CrewMembers.h */,
 				BCEF65CD2241672A003CCDDA /* Flight.cpp */,
@@ -150,7 +165,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCEF65DA22416748003CCDDA /* CrewMembers.cpp in Sources */,
+				BC905FA52265211A008F1F79 /* Cabin.cpp in Sources */,
 				BCEF65CB22416704003CCDDA /* CrewMember.cpp in Sources */,
+				BC905FA222652079008F1F79 /* Copilot.cpp in Sources */,
+				BCD13D35225E6AC500E3BC96 /* Pilot.cpp in Sources */,
 				BCEF65C822416457003CCDDA /* main.cpp in Sources */,
 				BCEF65D122416735003CCDDA /* Plane.cpp in Sources */,
 				BCEF65D722416742003CCDDA /* Flights.cpp in Sources */,
