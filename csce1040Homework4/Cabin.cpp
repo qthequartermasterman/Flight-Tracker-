@@ -54,3 +54,37 @@ void Cabin::printInfo(){
     CrewMember::printInfo();
     std::cout << "Cabin \tPosition: " << std::setw(12) << getCrewTypeAsString() << std::endl;
 }
+
+void Cabin::editInfo(){
+    printInfo();
+    //PUT THE STUFF HERE
+    int option=-1; //Set to -1, just to avoid interference.
+    while (option != 0){
+        std::cout << "Which property would you like to change?\n" <<
+        "0. Change nothing. Exit.\n"
+        "1. Name\n"
+        "2. Crew role\n";
+        std::cout << "Number of property you wish to change: ";
+        std::cin >> option; std::cin.ignore();
+        switch(option){
+            case 0:
+                break;
+            case 1:{
+                std::string newName;
+                std::cout << "New name of employee: ";
+                getline(std::cin, newName);
+                setName(newName);
+                std::cout << "Name changed.\n";
+                break;
+            }
+            case 2:{
+                std::string newRatingCode;
+                setCrewType();
+                break;
+            }
+            default:
+                std::cout << "Unrecognized Input. Please enter the number of the option you would like.\n";
+                break;
+        }
+    }
+} //Prompts user to edit info for cabin crew.

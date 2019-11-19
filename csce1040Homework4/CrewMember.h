@@ -54,6 +54,7 @@ public:
     
     virtual int getType()=0;//Returns the type of the CrewMember (Pilot, Copilot, CabinCrew, etc...)
     virtual void printInfo();
+    virtual void editInfo()=0;
 };
 
 #endif /* CrewMember_h */

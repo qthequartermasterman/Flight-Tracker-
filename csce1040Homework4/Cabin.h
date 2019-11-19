@@ -32,6 +32,7 @@ public:
     
     void printInfo(); // Prints information to the console.
     int getType(){return CABINCREWTYPE;}; //returns with the integer code corresponding to the Cabin Crew Member type of employee. (Unrelated to the particular CabinCrew Type (i.e. position on the plane))
+    void editInfo(); //Prompts user to edit info for cabin crew.
 };
 
 #endif /* Cabin_h */

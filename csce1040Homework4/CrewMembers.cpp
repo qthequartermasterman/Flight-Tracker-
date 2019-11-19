@@ -93,13 +93,6 @@ void CrewMembers::addCrew(){
     newEmployee->setName(name);
     newEmployee->setID(id);
 
-    
-    
-    
-    
-    
-    
-    
     CREWMEMBERS.push_back(newEmployee);
 } //presents a dialog to the user that asks for the potential CrewMember’s ID (integer) and careerType (string, such as Pilot or Cabin).
 void CrewMembers::editCrew(){
@@ -109,52 +102,7 @@ void CrewMembers::editCrew(){
     
     CrewMember* crewMemberWithID = findCrewMemberByID(id);
     if (crewMemberWithID){
-        //PUT THE STUFF HERE
-        int option=-1; //Set to -1, just to avoid interference.
-        while (option != 0){
-            std::cout << "Which property would you like to change?\n" <<
-            "0. Change nothing. Exit.\n"
-            "1. Name\n"
-            "2. Career Type\n";
-            std::cout << "Number of property you wish to change: ";
-            std::cin >> option; std::cin.ignore();
-            switch(option){
-                case 0:
-                    break;
-                case 1:{
-                    std::string newName;
-                    std::cout << "New name of employee: ";
-                    getline(std::cin, newName);
-                    crewMemberWithID->setName(newName);
-                    std::cout << "Name changed.\n";
-                    break;
-                }
-                case 2:{
-                    std::string type;
-                    bool validType = false;
-                    std::cout << "New Type (Pilot, Cabin): ";
-                    std::cin >> type; std::cin.ignore();
-                    do{
-                        if (type[0] == 'P' || type[0] == 'p'){
-                            //crewMemberWithID->setCareerType("Pilot");
-                            validType = true;
-                        } else if (type[0] == 'C' || type[0] == 'c'){
-                            //crewMemberWithID->setCareerType("Cabin");
-                            validType = true;
-                        } else{
-                            std::cout << "Invalid Employee Type. Correct Employee type (Pilot, Cabin): ";
-                            std::cin>>type; std::cin.ignore();
-                        }
-                    } while (!validType);
-                    std::cout << "Type change.\n";
-                    break;
-                }
-                default:
-                    std::cout << "Unrecognized Input. Please enter the number of the option you would like.\n";
-                    break;
-            }
-        }
-
+        crewMemberWithID->editInfo();
     } else {
         std::cout << "Crew Member with that ID is not found. Aborting edit.\n";
     }

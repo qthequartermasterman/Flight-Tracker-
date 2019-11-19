@@ -42,6 +42,7 @@ public:
     int getNumberOfCoPilots(){return numberOfCoPilots;}; //(integer) [flights over 8 hours need 2 pilots and 2 copilots]
     int getNumberOfCrewCabin(){return numberOfCrewCabin;}; //(integer) [8 hour flights need twice the minimum]
     std::vector<int> getPilotIDs(){return pilotIDs;}; //vector of all the pilots aboard a flight.
+    std::vector<int> getCoPilotIDs(){return copilotIDs;}; //vector of all the pilots aboard a flight.
     std::vector<int> getCabinCrewIDs(){return cabinCrewIDs;}; //vector of all the cabincrew aboard a flight.
     time_t getStartTime(){return startTime;}; // (date/time)
     time_t getEndTime(){return endTime;}; //(date/time)
@@ -56,7 +57,7 @@ public:
     void setNumberOfCoPilots(int num){numberOfCoPilots=num;}; //(integer) [flights over 8 hours need 2 pilots and 2 copilots]
     void setNumberOfCrewCabin(int num){numberOfCrewCabin=num;}; //(integer) [8 hour flights need twice the minimum]
     void setPilotIDs(std::vector<int> ids){pilotIDs=ids;}; //vector of all the pilots aboard a flight.
-    void setCoPilotIDs(std::vector<int> ids){copilotIDs=ids;}; //vector of all the pilots aboard a flight.
+    void setCoPilotIDs(std::vector<int> ids){copilotIDs=ids;}; //vector of all the copilots aboard a flight.
     void setCabinCrewIDs(std::vector<int> ids){cabinCrewIDs=ids;}; //vector of all the cabincrew aboard a flight.
     void setStartTime(time_t time){startTime=time;}; // (date/time)
     void setEndTime(time_t time){endTime=time;}; //(date/time)

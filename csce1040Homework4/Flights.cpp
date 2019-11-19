@@ -266,7 +266,7 @@ void Flights::addFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
                 if (CREWMEMBERS->isCrewMemberOfType(tempID, CABINCREWTYPE)){
                     cabinCrewIDs.push_back(tempID);
                 } else {
-                    std::cout << "That employee is not a copilot. Please enter a copilot's ID.\n";
+                    std::cout << "That employee is not a cabin crew member. Please enter a employee's ID.\n";
                 }
             } else {
                 std::cout << "Employee is not available during that time.\n";
@@ -295,6 +295,7 @@ void Flights::editFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
     
     Flight* flightWithID = findFlightByID(id);
     if (flightWithID){
+        flightWithID->printInfo();
         //PUT THE STUFF HERE
         int option=-1; //Set to -1, just to avoid interference.
         while (option != 0){
@@ -308,7 +309,8 @@ void Flights::editFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
             "6. Number of passengers\n"
             "7. Status\n"
             "8. Reset Pilots\n"
-            "9. Reset Cabin Crew\n";
+            "9. Reset Cabin Crew\n"
+            "10. Reset Copilots\n";
             std::cout << "Number of property you wish to change: ";
             std::cin >> option; std::cin.ignore();
             switch(option){
@@ -405,21 +407,17 @@ void Flights::editFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
                 case 8:{
                     int tempID = -1;
                     int numberOfPilots;
-                    int numberOfCrewCabin;
                     time_t endTime = flightWithID->getEndTime();
                     time_t startTime = flightWithID->getStartTime();
                     std::string planeID = flightWithID->getPlaneID();
                     std::vector<int> pilotIDs;
                     //Set minimums
                     if (endTime-startTime > 28800){
-                        numberOfPilots = 4; //Two pilots and two co pilots
-                        numberOfCrewCabin = 2*(PLANES->getMinCrewOfPlane(planeID)); //Twice the minimum required by the plane
+                        numberOfPilots = 2; //Two pilots and two co pilots
                     } else {
-                        numberOfPilots = 2;
-                        numberOfCrewCabin = PLANES->getMinCrewOfPlane(planeID); //The minimum required by the plane
+                        numberOfPilots = 1;
                     }
                     flightWithID->setNumberOfPilots(numberOfPilots);
-                    flightWithID->setNumberOfCrewCabin(numberOfCrewCabin);
                     
                     std::cout << "Enter Pilot IDs, one at a time. After adding enough pilots, enter 0 to finish.\n";
                     std::cout << "Minimum required number of pilots: " << numberOfPilots << std::endl;
@@ -431,7 +429,11 @@ void Flights::editFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
                         if (tempID != 0){
                             //Check to make sure we're adding an additional ID.
                             if (isCrewMemberAvailable(tempID, startTime, endTime)){
-                                pilotIDs.push_back(tempID);
+                                if (CREWMEMBERS->isCrewMemberOfType(tempID, PILOTTYPE)){
+                                    pilotIDs.push_back(tempID);
+                                } else {
+                                    std::cout << "That employee is not a pilot. Please enter a pilot's ID.\n";
+                                }
                             } else {
                                 std::cout << "Employee is not available during that time.\n";
                             }
@@ -479,7 +481,11 @@ void Flights::editFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
                         if (tempID != 0){
                             //Check to make sure we're adding an additional ID.
                             if (isCrewMemberAvailable(tempID, startTime, endTime)){
-                                cabinCrewIDs.push_back(tempID);
+                                if (CREWMEMBERS->isCrewMemberOfType(tempID, CABINCREWTYPE)){
+                                    cabinCrewIDs.push_back(tempID);
+                                } else {
+                                    std::cout << "That employee is not a cabin crew employee. Please enter a cabin crew employee's ID.\n";
+                                }
                             } else {
                                 std::cout << "Employee is not available during that time.\n";
                             }
@@ -496,6 +502,54 @@ void Flights::editFlight(Planes* PLANES, CrewMembers* CREWMEMBERS){
                         
                     }
                     flightWithID->setCabinCrewIDs(cabinCrewIDs);
+                    break;
+                }
+                case 10:{
+                    int tempID = -1;
+                    int numberOfCoPilots;
+                    time_t endTime = flightWithID->getEndTime();
+                    time_t startTime = flightWithID->getStartTime();
+                    std::string planeID = flightWithID->getPlaneID();
+                    std::vector<int> copilotIDs;
+                    //Set minimums
+                    if (endTime-startTime > 28800){
+                        numberOfCoPilots = 2; //Two pilots and two co pilots
+                    } else {
+                        numberOfCoPilots = 1;
+                    }
+                    flightWithID->setNumberOfCoPilots(numberOfCoPilots);
+                    
+                    std::cout << "Enter Pilot IDs, one at a time. After adding enough pilots, enter 0 to finish.\n";
+                    std::cout << "Minimum required number of pilots: " << numberOfCoPilots << std::endl;
+                    while (true){
+                        //Yes. This is ugly. But it's less ugly than using goto. And it requires too much time to restructure this in a more elegant way.
+                        //for additional reading, see xkcd.com/292/
+                        std::cout << "Copilot #" << copilotIDs.size()+1 << ": ";
+                        std::cin >> tempID; std::cin.ignore();
+                        if (tempID != 0){
+                            //Check to make sure we're adding an additional ID.
+                            if (isCrewMemberAvailable(tempID, startTime, endTime)){
+                                if (CREWMEMBERS->isCrewMemberOfType(tempID, COPILOTTYPE)){
+                                    copilotIDs.push_back(tempID);
+                                } else {
+                                    std::cout << "That employee is not a copilot. Please enter a pilot's ID.\n";
+                                }
+                            } else {
+                                std::cout << "Employee is not available during that time.\n";
+                            }
+                            
+                        } else {
+                            //If the user doesn't want to add an additional pilot, we make sure they have added enough. If so, we let them go on. If not, we force them with our iron fist.
+                            if (copilotIDs.size()>=numberOfCoPilots){
+                                break;
+                            } else {
+                                std::cout << "Too few pilots. Please enter additional Pilot IDs.\n";
+                                tempID=-1; //Reset this so that we don't accidentally stop another loop too early.
+                            }
+                        }
+                        
+                    }
+                    flightWithID->setCoPilotIDs(copilotIDs);
                     break;
                 }
                 default:
@@ -734,11 +788,6 @@ bool Flights::checkIfPlaneIsAvailable(std::string planeID, time_t startTime, tim
     }
     return true;
 } //searches for every flight with the given planeID and sees if time is between its start time and end time return true if available, false if not.
-
-
-
-
-
 void Flights::loadData(){
     FLIGHTS.clear();
     std::ifstream fin;
@@ -752,10 +801,13 @@ void Flights::loadData(){
             int flightID;
             std::string planeID;
             int numberOfPilots; //(integer) [flights over 8 hours need 2 pilots and 2 copilots]
+            int numberOfCoPilots; //(integer) [flights over 8 hours need 2 pilots and 2 copilots]
             int numberOfCrewCabin; //(integer) [8 hour flights need twice the minimum]
             int numberOfAssignedPilots;
+            int numberOfAssignedCoPilots;
             int numberOfAssignedCrewCabin;
             std::vector<int> pilotIDs; //vector of all the pilots aboard a flight.
+            std::vector<int> copilotIDs; //vector of all the copilots aboard a flight.
             std::vector<int> cabinCrewIDs; //vector of all the cabincrew aboard a flight.
             time_t startTime; // (date/time)
             time_t endTime; //(date/time)
@@ -767,11 +819,18 @@ void Flights::loadData(){
             fin >> flightID; fin.ignore();
             std::getline(fin, planeID);
             fin >> numberOfPilots; fin >> numberOfAssignedPilots;
+            fin >> numberOfCoPilots; fin >> numberOfAssignedCoPilots;
             fin >> numberOfCrewCabin; fin >> numberOfAssignedCrewCabin;
             for (int i = 0; i < numberOfAssignedPilots; i++){
                 int tempID;
                 fin >> tempID;
                 pilotIDs.push_back(tempID);
+            }
+            fin.ignore();
+            for (int i = 0; i < numberOfAssignedCoPilots; i++){
+                int tempID;
+                fin >> tempID;
+                copilotIDs.push_back(tempID);
             }
             fin.ignore();
             for (int i = 0; i < numberOfAssignedCrewCabin; i++){
@@ -818,10 +877,16 @@ void Flights::storeData(){
         fout << ptr->getID() << std::endl;
         fout << ptr->getPlaneID() << std::endl;
         fout << ptr->getNumberOfPilots() << " " << ptr->getPilotIDs().size() << std::endl;
+        fout << ptr->getNumberOfCoPilots() << " " << ptr->getCoPilotIDs().size() << std::endl;
         fout << ptr->getNumberOfCrewCabin() << " " << ptr->getCabinCrewIDs().size() << std::endl;
         std::vector<int>::iterator idPtr;
         //Iterate over the Pilots, printing each id to the file followed by a space.
         for (idPtr = (ptr->getPilotIDs()).begin(); idPtr < (ptr->getPilotIDs()).end();idPtr++){
+            fout << *idPtr << " ";
+        }
+        fout<<std::endl;
+        //Iterate over the CoPilots, printing each id to the file followed by a space.
+        for (idPtr = (ptr->getCoPilotIDs()).begin(); idPtr < (ptr->getCoPilotIDs()).end();idPtr++){
             fout << *idPtr << " ";
         }
         fout<<std::endl;

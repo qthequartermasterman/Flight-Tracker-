@@ -34,5 +34,6 @@ public:
     
     void printInfo(); // Prints information to the console.
     int getType(){return COPILOTTYPE;};
+    void editInfo(); //Prompts user to edit info for copilot
 };
 #endif /* Copilot_h */

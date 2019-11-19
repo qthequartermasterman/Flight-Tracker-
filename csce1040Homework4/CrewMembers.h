@@ -29,7 +29,7 @@ public:
     void addCrew(); //presents a dialog to the user that asks for the potential CrewMember’s ID (integer) and careerType (string, such as Pilot or Cabin).
     void editCrew(); //presents a dialog to the user asking which properties they would like to change. It then prompts for the new value, checking against its restrictions (for example, if an ID is already taken). If the user tries to change a value that will cause another property to have an illegal value, it warns the user. If the user decides to continue, it then asks for updated values of the other properties.
     void deleteCrew(); //presents a dialog to the user that asks for the ID of the CrewMember that they would like to delete. It then asks for confirmation before deleting the CrewMember object and updating the collection.
-    CrewMember findCrewMembersByName(std::string name); //searches for every Crew Member with the given name
+    //CrewMember* findCrewMembersByName(std::string name); //searches for every Crew Member with the given name
     CrewMember* findCrewMemberByID(int crewID); //searches for every CrewMember with the given crewID.
     std::vector<CrewMember> findCrewMembersByType(std::string type); //searches for every CrewMember with the given type.
     void printListOfPeople(); //iterates over every CrewMember in the collection and runs printIndividualInfo(crewID) with their respective crewID.

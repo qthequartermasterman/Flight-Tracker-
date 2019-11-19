@@ -40,5 +40,7 @@ public:
     void printInfo(); // Prints information to the console.
     
     int getType(){return PILOTTYPE;};
+    
+    void editInfo(); //Prompts the user to edit Pilot info.
 };
 #endif /* Pilot_h */

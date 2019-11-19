@@ -23,13 +23,13 @@ Flights FLIGHTS;
 void load(){
     PLANES.loadData();
     CREWMEMBERS.loadData();
-    //FLIGHTS.loadData();
+    FLIGHTS.loadData();
 } //loads all the data from a previously saved file.
 
 void save(){
     PLANES.storeData();
     CREWMEMBERS.storeData();
-    //FLIGHTS.storeData();
+    FLIGHTS.storeData();
 } //saves all the data to a file on the drive.
 
 int main (){
